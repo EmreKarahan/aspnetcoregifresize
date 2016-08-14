@@ -1,5 +1,5 @@
 ﻿var testHubProxy = $.connection.testHub;
-testHubProxy.client.hello = function (message) {
+testHubProxy.client.message = function (message) {
 
     if (message != null) {
         $(".shell-body").append("<li>" + message + "</li>");
@@ -7,10 +7,20 @@ testHubProxy.client.hello = function (message) {
     }
 };
 
+
+testHubProxy.client.error = function (message) {
+
+    if (message != null) {
+        $(".shell-body").append("<li class='error'>" + message + "</li>");
+        $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
+    }
+};
+
+
 testHubProxy.client.exited = function (message) {
 
     if (message != null) {
-        $(".shell-body").append("<li>" + message + "</li>");
+        $(".shell-body").append("<li class='finish'>" + message + "</li>");
         $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
     }
 };
@@ -49,6 +59,18 @@ $(document).ready(function () {
                     console.log(Math.floor(e.loaded / e.total * 100) + '%');
                     console.log(progressBarValue);
                     $('.progress-bar').css('width', progressBarValue + '%').attr('aria-valuenow', progressBarValue);
+
+                    if (progressBarValue != 100) {
+                        $(".shell-body").empty();
+                        $(".shell-body").append("<li>Uploading " + progressBarValue + "%" + "</li>");
+
+                    }
+                    else {
+                        $(".shell-body").empty();
+                        $(".shell-body").append("<li>Uploading " + progressBarValue + "%" + "</li>");
+                        $(".shell-body").append("<li>Uploading Completed.</li>");
+                    }
+                    $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
                 };
                 return xhr;
             },
@@ -58,9 +80,10 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             data: data,
-            success: function (message) {
+            success: function (data) {
                 //alert(message);
-                console.log(message);
+                $("#uploaded").attr("src", data.path);
+                console.log(data);
             },
             error: function () {
                 // alert("There was error uploading files!");

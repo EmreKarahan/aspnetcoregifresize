@@ -66,11 +66,16 @@
     color: #45D40C;
 }
 
-
-
-
 .shell-body li {
     word-wrap: break-word;
     position: relative;
     padding: 0 0 0 97px;
+}
+
+.shell-body li.error {
+    color: red;
+}
+
+.shell-body li.finish {
+    color: dodgerblue;
 }

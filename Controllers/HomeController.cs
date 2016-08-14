@@ -27,13 +27,13 @@ namespace GifResize.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> UploadFile()
         {
             var files = Request.Form.Files;
             var uploads = Path.Combine(_environment.ContentRootPath, _configuration.UploadFolderName);
             string uploadFileName = string.Empty;
+            string tempFileName = string.Empty;
 
             if (!Directory.Exists(uploads))
                 Directory.CreateDirectory(uploads);
@@ -43,32 +43,21 @@ namespace GifResize.Controllers
                 {
                     if (file.Length > 0)
                     {
-                        uploadFileName = Path.Combine(uploads, file.FileName);
+                        tempFileName = CommonHelper.GetRandomFileName(file.FileName); ;
+                        uploadFileName = Path.Combine(uploads, tempFileName);
                         using (var fileStream = new FileStream(uploadFileName, FileMode.Create))
                         {
                             await file.CopyToAsync(fileStream);
                         }
 
-                        ProcessStartHelper process = new ProcessStartHelper();
-                        process.OutputDataReceived += (s, e) =>
-                        {
-                            _hub.Clients.All.hello(e.Data);
-                        };
+                        // ProcessStartHelper process = new ProcessStartHelper();
 
-                        process.ErrorDataReceived += (s, e) =>
-                     {
-                         _hub.Clients.All.error(e.Data);
-                     };
+                        // process.OutputDataReceived += (s, e) => _hub.Clients.All.message(e.Data);
+                        // process.ErrorDataReceived += (s, e) => _hub.Clients.All.error(e.Data);
+                        // process.Exited += (s, e) => _hub.Clients.All.exited("Procees Finished...");
+                        // process.Error += (s, e) => _hub.Clients.All.error(e.ErrorMessage);
 
-                        process.Exited += (s, e) =>
-                        {
-                            _hub.Clients.All.exited("Procees Finished...");
-                        };
-                        process.Error += (s, e) =>
-                        {
-                            _hub.Clients.All.error(e.ErrorMessage);
-                        };
-                        process.Resize(_configuration.EncoderPath, uploadFileName, "./image/output.gif", 650, 330);
+                        // process.Resize(_configuration.EncoderPath, uploadFileName, "./image/output.gif", 650, 330);
                     }
                 }
             }
@@ -76,7 +65,7 @@ namespace GifResize.Controllers
             {
                 System.Console.WriteLine(ex.Message);
             }
-            return Json(new { Path = uploadFileName, Width = files[0] });
+            return Json(new { Path = _configuration.UploadReadFolderName + "/" + tempFileName, Width = files[0] });
         }
     }
 
