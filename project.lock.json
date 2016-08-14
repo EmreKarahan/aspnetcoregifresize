@@ -2010,31 +2010,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "StackExchange.Redis/1.1.604-alpha": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027",
-          "System.Collections.NonGeneric": "4.0.1-rc2-24027",
-          "System.IO.FileSystem": "4.0.1-rc2-24027",
-          "System.Net.NameResolution": "4.0.0-rc2-24027",
-          "System.Net.Security": "4.0.0-rc2-24027",
-          "System.Net.Sockets": "4.1.0-rc2-24027",
-          "System.Reflection.Emit": "4.0.1-rc2-24027",
-          "System.Reflection.Emit.Lightweight": "4.0.1-rc2-24027",
-          "System.Reflection.TypeExtensions": "4.1.0-rc2-24027",
-          "System.Security.Cryptography.Algorithms": "4.1.0-rc2-24027",
-          "System.Security.Cryptography.X509Certificates": "4.1.0-rc2-24027",
-          "System.Threading.Thread": "4.0.0-rc2-24027",
-          "System.Threading.ThreadPool": "4.0.10-rc2-24027",
-          "System.Threading.Timer": "4.0.1-rc2-24027"
-        },
-        "compile": {
-          "lib/netstandard1.5/StackExchange.Redis.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.5/StackExchange.Redis.dll": {}
-        }
-      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -3034,7 +3009,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
+          "ref/netstandard1.0/_._": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {}
@@ -5464,23 +5439,6 @@
         "lib/netstandard1.0/_._",
         "runtime.native.System.Security.Cryptography.4.0.0.nupkg.sha512",
         "runtime.native.System.Security.Cryptography.nuspec"
-      ]
-    },
-    "StackExchange.Redis/1.1.604-alpha": {
-      "sha512": "urjRtG87pK9fQ6bGY1/KkSa/BQ0n54glPs/iHKwYyj8HFb2k+DhoDMS4O+GZJeXOm4+ci22BIN35UDkQnI5FBw==",
-      "type": "package",
-      "path": "StackExchange.Redis/1.1.604-alpha",
-      "files": [
-        "StackExchange.Redis.1.1.604-alpha.nupkg.sha512",
-        "StackExchange.Redis.nuspec",
-        "lib/net40/StackExchange.Redis.dll",
-        "lib/net40/StackExchange.Redis.xml",
-        "lib/net45/StackExchange.Redis.dll",
-        "lib/net45/StackExchange.Redis.xml",
-        "lib/net46/StackExchange.Redis.dll",
-        "lib/net46/StackExchange.Redis.xml",
-        "lib/netstandard1.5/StackExchange.Redis.dll",
-        "lib/netstandard1.5/StackExchange.Redis.xml"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -10010,7 +9968,6 @@
     ],
     ".NETCoreApp,Version=v1.0": [
       "Microsoft.NETCore.App >= 1.0.0-*",
-      "StackExchange.Redis >= 1.1.604-alpha",
       "System.Runtime.Serialization.Primitives >= 4.1.1-*"
     ]
   },

@@ -5,9 +5,15 @@ using System.Diagnostics;
 public class ProcessStartHelper
 {
 
-    public static event DataReceivedEventHandler OutputDataReceived;
-    public static event EventHandler Exited;
-    public static string Resize(string encoderPath, string input, string output, int width, int height)
+    public event DataReceivedEventHandler OutputDataReceived;
+
+    public event DataReceivedEventHandler ErrorDataReceived;
+
+    public event EventHandler Exited;
+
+    public event EventHandler<ProcessStartEventArgs> Error;
+
+    public string Resize(string encoderPath, string input, string output, int width, int height)
     {
         try
         {
@@ -25,13 +31,9 @@ public class ProcessStartHelper
 
             Process ffProcess = new Process { StartInfo = psi };
 
-            //* Set your output and error (asynchronous) handlers
-
-            // ffProcess.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
-            // ffProcess.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
             ffProcess.EnableRaisingEvents = true;
             ffProcess.OutputDataReceived += OutputDataReceived;
-            ffProcess.ErrorDataReceived += OutputDataReceived;
+            ffProcess.ErrorDataReceived += ErrorDataReceived;
             ffProcess.Exited += Exited;
 
 
@@ -46,18 +48,19 @@ public class ProcessStartHelper
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            ProcessStartEventArgs args = new ProcessStartEventArgs();
+            args.ErrorMessage = ex.Message;
+            OnError(args);
         }
-
         return string.Empty;
     }
 
-    private static void OutputHandler(object sender, DataReceivedEventArgs e)
+    protected virtual void OnError(ProcessStartEventArgs e)
     {
-        //* Do your stuff with the output (write to console/log/StringBuilder)
-        Console.WriteLine(e.Data);
-
+        EventHandler<ProcessStartEventArgs> handler = Error;
+        if (handler != null)
+        {
+            handler(this, e);
+        }
     }
-
-
 }
