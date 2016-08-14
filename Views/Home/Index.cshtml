@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section scripts{
+<script src="~/lib/signalr/jquery.signalR.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/js/site.js"></script>
+}
+
+
+
+<div class="col-md-12">
+   <div class="col-md-6"/>
+      <ul class="nav nav-tabs">
+         <li class="active"><a data-toggle="tab" href="#home">Animaged GIF Resize</a></li>
+         <li><a data-toggle="tab" href="#menu1">Video To Animated GIF</a></li>
+         <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+      </ul>
+      <div class="tab-content">
+         <div id="home" class="tab-pane fade in active">
+            <h3>Animaged GIF Resize</h3>
+            <form method="post" enctype="multipart/form-data">
+               <label class="btn btn-info btn-file">
+               Browse <input type="file" id="files" 
+                  name="files" multiple style="display: none;" />
+               </label>
+               <input type="button" 
+                  id="upload" 
+                  value="Upload Selected Files"  class="btn btn-success"/>
+            </form>
+            <div class="progress">
+               <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                  <span class="sr-only">0% Complete</span>
+               </div>
+            </div>
+         </div>
+         <div id="menu1" class="tab-pane fade">
+            <h3>Video To Animated GIF</h3>
+            <p>Some content in menu 1.</p>
+         </div>
+         <div id="menu2" class="tab-pane fade">
+            <h3>Menu 2</h3>
+            <p>Some content in menu 2.</p>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-6"/>
+      <div class="shell-wrap">
+         <ul class="shell-body">
+           <li>Ready...</li>
+         </ul>
+      </div>
+   </div>
+</div>
+
+
+
+
+
