@@ -43,6 +43,7 @@ $.connection.hub.start()
 
 
 $(document).ready(function () {
+
     $("#upload").click(function (evt) {
         $(".shell-body").empty();
         var fileUpload = $("#files").get(0);
@@ -68,7 +69,7 @@ $(document).ready(function () {
                     else {
                         $(".shell-body").empty();
                         $(".shell-body").append("<li>Uploading " + progressBarValue + "%" + "</li>");
-                        $(".shell-body").append("<li>Uploading Completed.</li>");
+                        $(".shell-body").append("<li>Upload Completed.</li>");
                     }
                     $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
                 };
@@ -81,12 +82,34 @@ $(document).ready(function () {
             processData: false,
             data: data,
             success: function (data) {
-                //alert(message);
                 $("#uploaded").attr("src", data.path);
+                $("#gif-upload-panel").hide();
+                $("#gif-encode-panel").show();
+                $("#gif-file-name").val(data.fileName);
                 console.log(data);
             },
             error: function () {
-                // alert("There was error uploading files!");
+                console.log("error");
+            }
+        });
+    });
+
+
+    $("#gif-process-button").on("click", function () {
+
+        var fileName = $("#gif-file-name").val();
+
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/ProcessGif",
+            data: {
+                'fileName': fileName    
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
                 console.log("error");
             }
         });
