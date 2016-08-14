@@ -76,6 +76,10 @@
     color: red;
 }
 
+.shell-body li.info {
+    color: #4FC1E9;
+}
+
 .shell-body li.finish {
-    color: dodgerblue;
+    color: #3BAFDA;
 }

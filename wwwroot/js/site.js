@@ -28,24 +28,23 @@ testHubProxy.client.exited = function (message) {
 
 $.connection.hub.start()
     .done(function () {
-        console.log('Now connected, connection ID=' + $.connection.hub.id);
-        // Wire up Send button to call NewContosoChatMessage on the server.
-        $('#newContosoChatMessage').click(function () {
-            testHubProxy.server.newContosoChatMessage($('#displayname').val(), $('#message').val());
-            $('#result').val('').focus();
-        });
+        clearScreen();
     })
     .fail(function () { console.log('Could not Connect!'); });
 
 
 
-
+function clearScreen() {
+    $(".shell-body").append("<li class='info'>Now connected Encoder Server, Your Connection ID=" + $.connection.hub.id + "</li>");
+    $(".shell-body").append("<li class='info'>Ready...</li>");
+    $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
+}
 
 
 $(document).ready(function () {
 
     $("#upload").click(function (evt) {
-        $(".shell-body").empty();
+        //$(".shell-body").empty();
         var fileUpload = $("#files").get(0);
         var files = fileUpload.files;
         var data = new FormData();
@@ -57,18 +56,19 @@ $(document).ready(function () {
                 var xhr = $.ajaxSettings.xhr();
                 xhr.upload.onprogress = function (e) {
                     var progressBarValue = (Math.floor(e.loaded / e.total * 100));
-                    console.log(Math.floor(e.loaded / e.total * 100) + '%');
-                    console.log(progressBarValue);
+                    //console.log(Math.floor(e.loaded / e.total * 100) + '%');
+                    //console.log(progressBarValue);
                     $('.progress-bar').css('width', progressBarValue + '%').attr('aria-valuenow', progressBarValue);
 
+                    $(".shell-body").append("<li> </li>");
                     if (progressBarValue != 100) {
-                        $(".shell-body").empty();
-                        $(".shell-body").append("<li>Uploading " + progressBarValue + "%" + "</li>");
+                        //$("li:last").empty();
+                        $(".shell-body li:last").text("Uploading " + progressBarValue + "%");
 
                     }
                     else {
-                        $(".shell-body").empty();
-                        $(".shell-body").append("<li>Uploading " + progressBarValue + "%" + "</li>");
+                        //$(".shell-body").empty();
+                        $(".shell-body li:last").text("Uploading " + progressBarValue + "%");
                         $(".shell-body").append("<li>Upload Completed.</li>");
                     }
                     $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
@@ -96,15 +96,12 @@ $(document).ready(function () {
 
 
     $("#gif-process-button").on("click", function () {
-
         var fileName = $("#gif-file-name").val();
-
-
         $.ajax({
             type: "GET",
             url: "/Home/ProcessGif",
             data: {
-                'fileName': fileName    
+                'fileName': fileName
             },
             success: function (data) {
                 console.log(data);
@@ -114,4 +111,9 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#files").on("change", function () {
+        $(".shell-body").append("<li class='info'>Selected File => '" + this.value + "'" + "</li>");
+    });
+
 });
