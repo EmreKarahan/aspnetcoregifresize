@@ -25,6 +25,7 @@
         },
 
         clearScreen: function () {
+            $(".shell-body").empty();
             $(".shell-body").append("<li class='info'>Now connected Encoder Server, Your Connection ID=" + $.connection.hub.id + "</li>");
             $(".shell-body").append("<li class='info'>Ready...</li>");
             $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
@@ -60,6 +61,7 @@
             for (var i = 0; i < files.length; i++) {
                 data.append(files[i].name, files[i]);
             }
+            $(".shell-body").append("<li> </li>");
             $.ajax({
                 xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
@@ -67,15 +69,13 @@
                         var progressBarValue = (Math.floor(e.loaded / e.total * 100));
                         $('.progress-bar').css('width', progressBarValue + '%').attr('aria-valuenow', progressBarValue);
 
-                        $(".shell-body").append("<li> </li>");
-                        if (progressBarValue != 100) {
-                            $(".shell-body li:last").text("Uploading " + progressBarValue + "%");
 
-                        }
-                        else {
-                            $(".shell-body li:last").text("Uploading " + progressBarValue + "%");
+                        $(".shell-body li:last").text("Uploading " + progressBarValue + "%");
+
+                        if (progressBarValue == 100) {
                             $(".shell-body").append("<li>Upload Completed.</li>");
                         }
+
                         $(".shell-body").animate({ scrollTop: $('.shell-body').prop("scrollHeight") }, 1);
                     };
                     return xhr;

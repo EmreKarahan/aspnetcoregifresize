@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using GifResize.Hubs;
+using System.Collections.Generic;
 
 namespace GifResize.Controllers
 {
@@ -14,6 +15,7 @@ namespace GifResize.Controllers
         private readonly IHubContext _hub;
         private AppConfiguration _configuration { get; set; }
         private IHostingEnvironment _environment;
+
 
         public HomeController(IConnectionManager connectionManager, IHostingEnvironment environment, IOptions<AppConfiguration> configuration)
         {
@@ -56,21 +58,21 @@ namespace GifResize.Controllers
             {
                 System.Console.WriteLine(ex.Message);
             }
-            return Json(new { Path = _configuration.UploadReadFolderName + "/" + tempFileName, FileName = tempFileName, Width = files[0] });
+            return Json(new { Path = _configuration.ImagesBaseUrl + "/" + tempFileName, FileName = tempFileName, Width = files[0] });
         }
 
 
-     
+
         public void ProcessGif(string fileName)
         {
             ProcessStartHelper process = new ProcessStartHelper();
 
-            process.OutputDataReceived += (s, e) => _hub.Clients.All.message(e.Data);
-            process.ErrorDataReceived += (s, e) => _hub.Clients.All.error(e.Data);
-            process.Exited += (s, e) => _hub.Clients.All.exited("Procees Finished...");
+            process.OutputDataReceived += (s, e) => _hub.Clients.All.message($"{e.Data}");
+            process.ErrorDataReceived += (s, e) => _hub.Clients.All.error($"{e.Data}");
+            process.Exited += (s, e) => _hub.Clients.All.exited($"Procees Finished...");
             process.Error += (s, e) => _hub.Clients.All.error(e.ErrorMessage);
 
-            process.Resize(_configuration.EncoderPath, _configuration.UploadFolderName + "/" + fileName, "./image/output.gif", 650, 330);
+            process.Resize(_configuration.EncoderPath, _configuration.UploadFolderName + "/" + fileName, "./image/output.gif");
         }
     }
 

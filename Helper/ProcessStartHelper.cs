@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public class ProcessStartHelper
@@ -13,11 +14,19 @@ public class ProcessStartHelper
 
     public event EventHandler<ProcessStartEventArgs> Error;
 
-    public string Resize(string encoderPath, string input, string output, int width, int height)
+    // private IList<string> _args;
+
+    // public ProcessStartHelper(IList<string> args)
+    // {
+    //     _args = args;
+    // }
+
+
+    public string Resize(string encoderPath, string input, string output)
     {
         try
         {
-            string ffmpegArguments = string.Format("-i \"{0}\" -vf scale={1}:{2} -y \"{3}\"", input, width, height, output);
+            string ffmpegArguments = $"{input} {output} 640";
 
             ProcessStartInfo psi = new ProcessStartInfo()
             {
